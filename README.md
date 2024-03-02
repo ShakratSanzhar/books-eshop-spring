@@ -24,6 +24,6 @@ This project is the second version of Eshop of books. The first project was writ
 6. The application is available at: [http://localhost:8080](http://localhost:8080)
 
 
-### PS
+### P.S.
 My Telegram for communication: [https://t.me/gss0911](https://t.me/gss0911)
-#### I wish all of you good luck
+#### I wish all of you good luck!
