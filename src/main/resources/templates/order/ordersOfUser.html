@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>OrdersOfUser</title>
+  <link rel="stylesheet" th:href="@{/styles/css/fragment.css}">
+</head>
+<body>
+<div th:insert="~{fragment :: header}"></div>
+
+<h3><span th:text="#{orders.orders}">Text</span></h3>
+<br>
+<div th:each="order : ${orders}">
+  <p th:text="|#{orders.no}:  ${order.id} |">No</p>
+  <p th:text="|#{orders.status}: ${order.status} |">Status</p>
+  <p th:text="|#{orders.created_at}: ${order.createdAt} |">Created at</p>
+  <p th:text="|#{orders.closed_at}: ${order.closedAt} |">Closed at</p>
+
+  <p th:text="|#{orders.total}: ${order.price} #{orders.tenge}|">Price</p>
+
+  <form th:action="@{/users/{userId}/orders/{orderId}(userId=${order.user.id},orderId=${order.id})}" method="get">
+    <button class="product-card__button" type="submit"><span style="color: red" th:text="#{orders.see_whats_inside_the_order}">Text</span></button>
+  </form>
+  <br>
+</div>
+
+</body>
+</html>

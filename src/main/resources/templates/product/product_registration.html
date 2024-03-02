@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Product registration</title>
+    <link rel="stylesheet" th:href="@{/styles/css/fragment.css}">
+</head>
+<body>
+<div th:insert="~{fragment :: header}"></div>
+<form th:action="@{/products}" enctype="multipart/form-data" method="post" th:object="${product}">
+    <label for="category">Category:
+        <select id="category" name="categoryId">
+            <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}" th:selected="${category.id==product.categoryId}">Category</option>
+        </select>
+    </label><br>
+    <label for="name">Name:
+        <input id="name" type="text" name="name" th:value="*{name}">
+    </label><br>
+    <label for="description">Description:
+        <input id="description" type="text" name="description" th:value="*{description}">
+    </label><br>
+    <label for="author">Author:
+        <input id="author" type="text" name="author" th:value="*{author}">
+    </label><br>
+    <label for="image">Image:
+        <input id="image" type="file" name="image">
+    </label><br>
+    <label for="price">Price:
+        <input id="price" type="number" name="price" th:value="*{price}">
+    </label><br>
+    <label for="remainingAmount">Remaining amount:
+        <input id="remainingAmount" type="number" name="remainingAmount" th:value="*{remainingAmount}">
+    </label><br>
+    <button type="submit">Add new product</button>
+</form>
+
+<div th:if="${errors}">
+    <p style="color: red" th:each="error : ${errors}" th:text="${error.defaultMessage}">Error message</p>
+</div>
+</body>
+</html>

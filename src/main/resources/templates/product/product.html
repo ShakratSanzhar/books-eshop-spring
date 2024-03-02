@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Product</title>
+  <link rel="stylesheet" th:href="@{/styles/css/fragment.css}">
+</head>
+<body>
+<div th:insert="~{fragment :: header}"></div>
+
+<h3 th:text="${product.name}">Product Name</h3>
+
+<div sec:authorize="hasAuthority('ADMIN')">
+  <h4><span style="color: darkorange" th:text="#{product.update_product}">Text</span></h4>
+  <form th:action="@{/products/{productId}/update(productId=${product.id})}" enctype="multipart/form-data" method="post" th:object="${product}">
+    <label for="category"><span th:text="#{product.category}">Text</span>
+      <select id="category" name="categoryId">
+        <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}" th:selected="${category.name==product.category.name}">Category</option>
+      </select>
+    </label><br>
+    <label for="name">
+      <input id="name" type="hidden" name="name" th:value="*{name}">
+    </label><br>
+    <label for="description"><span th:text="#{product.description}">Text</span>
+      <input id="description" type="text" name="description" th:value="*{description}">
+    </label><br>
+    <label for="author"><span th:text="#{product.author}">Text</span>
+      <input id="author" type="text" name="author" th:value="*{author}">
+    </label><br>
+    <!--  <div th:if="${product.image}">-->
+    <!--    <img th:src="@{/api/v1/products/{productId}/image(productId=${product.id})}" alt="Product image">-->
+    <!--  </div>-->
+    <label for="image"><span th:text="#{product.image}">Text</span>
+      <input id="image" type="file" name="image">
+    </label><br>
+    <label for="price"><span th:text="#{product.price}">Text</span>
+      <input id="price" type="number" name="price" th:value="*{price}">
+    </label><br>
+    <label for="remainingAmount"><span th:text="#{product.remaining_amount}">Text</span>
+      <input id="remainingAmount" type="number" name="remainingAmount" th:value="*{remainingAmount}">
+    </label><br>
+    <button type="submit"><span style="color: red" th:text="#{product.update}">Text</span></button>
+  </form>
+</div>
+<div th:if="${errors}">
+  <p style="color: red" th:each="error : ${errors}" th:text="${error.defaultMessage}">Error message</p>
+</div>
+
+<div th:if="${success}">
+  <p style="color: green" th:text="${success}">Success</p>
+</div>
+
+<br>
+<div th:if="${product.image}">
+  <img th:src="@{/api/v1/products/{productId}/image(productId=${product.id})}" alt="Product image">
+</div>
+
+<span th:text="|#{product.name} ${product.name}|">Text</span> <br>
+<span th:text="|#{product.category} ${product.category.name}|">Text</span> <br>
+<span th:text="|#{product.description} ${product.description}|">Text</span> <br>
+<span th:text="|#{product.author} ${product.author}|">Text</span> <br>
+<span th:text="|#{product.price} ${product.price}|">Text</span> <br>
+<span th:text="|#{product.remaining_amount} ${product.remainingAmount}|">Text</span> <br>
+
+<div sec:authorize="hasAuthority('ADMIN')">
+  <form th:action="@{/products/{productId}/delete(productId=${product.id})}" method="post">
+    <button type="submit"><span style="color: red" th:text="#{product.remove}">Text</span></button>
+  </form>
+</div>
+</body>
+</body>
+</html>

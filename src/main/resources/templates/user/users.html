@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Users</title>
+  <link rel="stylesheet" th:href="@{/styles/css/fragment.css}">
+</head>
+<body>
+<div th:insert="~{fragment :: header}"></div>
+<h3><span th:text="#{users.all_users}">Text</span></h3>
+<span style="color: blue" th:text="#{users.filtration}">Text</span>
+<form action="/users">
+  <label for="username"><span th:text="#{users.username}">Text</span>
+    <input id="username" type="text" name="username" th:value="${filter.getUsername()}">
+  </label>
+  <label for="email"><span th:text="#{users.email}">Text</span>
+    <input id="email" type="text" name="email" th:value="${filter.getEmail()}">
+  </label>
+  <label for="role"><span th:text="#{users.role}">Text</span>
+    <input id="role" type="text" name="role" th:value="${filter.getRole()}">
+  </label>
+  <div>
+    <label for="page"><span th:text="#{users.page}">Text</span>
+      <input id="page" type="number" name="page" th:value="${users.metadata.page}">
+    </label>
+    <label for="size"><span th:text="#{users.size}">Text</span>
+      <input id="size" type="number" name="size" th:value="${users.metadata.size}">
+    </label>
+  </div>
+  <button type="submit"><span style="color: red" th:text="#{users.filter}">Text</span></button>
+</form>
+<br>
+<br>
+<div th:each="user : ${users.content}">
+  <form th:action="@{'/users/' + ${user.id}}" method="get">
+    <button type="submit"><span style="color: darkorange" th:text="#{user.see_this_user}">Text</span></button>
+  </form>
+  <span th:text="|#{users.username} ${user.username}|">Text</span> <br>
+  <span th:text="|#{users.email} ${user.email}|">Text</span><br>
+  <span th:text="|#{users.role} ${user.role}|">Text</span><br>
+  <span th:text="|#{users.name} ${user.userDetail.getName()}|">Text</span><br>
+  <span th:text="|#{users.surname} ${user.userDetail.getSurname()}|">Text</span><br>
+  <span th:text="|#{users.birthday} ${user.userDetail.getBirthday()}|">Text</span><br>
+  <span th:text="|#{users.phone} ${user.userDetail.getPhone()}|">Text</span><br>
+  <span th:text="|#{users.registration_date} ${user.userDetail.getRegistrationDate()}|">Text</span><br>
+  <form th:action="@{/users/{userId}/delete(userId=${user.id})}" method="post">
+    <button type="submit"><span style="color: red" th:text="#{user.remove}">Text</span></button>
+  </form><br>
+</div>
+</body>
+</html>

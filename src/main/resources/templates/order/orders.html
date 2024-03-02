@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>All orders</title>
+  <link rel="stylesheet" th:href="@{/styles/css/fragment.css}">
+</head>
+<body>
+<div th:insert="~{fragment :: header}"></div>
+<h3><span th:text="#{orders.all_orders_of_all_users}">All Orders of All Users</span></h3>
+<br>
+<div th:each="order : ${list}">
+  <p style="color: #f09819" th:text="|#{orders.no}:  ${order.id} |">No</p>
+  <p th:text="|#{orders.username}:  ${order.user.username} |">User</p>
+  <p th:text="|#{orders.status}: ${order.status} |">Status</p>
+  <p th:text="|#{orders.created_at}: ${order.createdAt} |">Created at</p>
+  <p th:text="|#{orders.closed_at}: ${order.closedAt} |">Closed at</p>
+
+  <p style="color: #f09819" th:text="|#{orders.total}: ${order.price} #{orders.tenge}|">Price</p>
+
+  <form th:action="@{/orders/{orderId}/confirm(orderId=${order.id})}" method="post">
+    <button class="product-card__button" type="submit"><span style="color:
+green" th:text="#{orders.confirm_the_payment}">Confirm the payment</span></button>
+  </form>
+
+  <form th:action="@{/users/{userId}/orders/{orderId}/delete(userId=${order.user.id},orderId=${order.id})}" method="post">
+    <button class="product-card__button" type="submit"><span style="color:
+red" th:text="#{orders.delete_the_order}">Delete the order</span></button>
+  </form>
+
+</div>
+</body>
+</html>

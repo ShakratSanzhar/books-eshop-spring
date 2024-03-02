@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Registration</title>
+</head>
+<body>
+<div th:insert="~{fragment :: locale}"></div>
+<h3><span th:text="#{registration.registartion_of_main_information}">Text</span></h3>
+<form th:action="@{/users}" method="post" th:object="${user}">
+  <label for="username"><span th:text="#{registration.username}">Text</span>
+    <input id="username" type="text" name="username" th:value="*{username}">
+  </label><br>
+  <label for="email"><span th:text="#{registration.email}">Text</span>
+    <input id="email" type="text" name="email" th:value="*{email}">
+  </label><br>
+  <label for="rawPassword"><span th:text="#{registration.password}">Text</span>
+    <input id="rawPassword" type="password" name="rawPassword">
+  </label><br>
+  <span th:text="#{registration.role}">Text</span>
+  <div th:each="role : ${roles}">
+    <input th:id="${role}" type="radio" name="role" th:value="${role}" th:checked="${role == user.role}">
+    <label th:for="${role}" th:text="${role}">Role name</label>
+  </div>
+  <button type="submit"><span style="color: red" th:text="#{registration.register}">Text</span></button>
+</form>
+
+<div th:if="${errors}">
+  <p style="color: red" th:each="error : ${errors}" th:text="${error.defaultMessage}">Error message</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Details Registration</title>
+</head>
+<body>
+<div th:insert="~{fragment :: locale}"></div>
+<h3><span th:text="#{registration.registartion_of_details}">Text</span></h3>
+<form th:action="@{/users/{userId}/details(userId=${userId})}" method="post" th:object="${userDetail}">
+  <label for="name"><span th:text="#{registration.name}">Text</span>
+    <input id="name" type="text" name="name" th:value="*{name}">
+  </label><br>
+  <label for="surname"><span th:text="#{registration.surname}">Text</span>
+    <input id="surname" type="text" name="surname" th:value="*{surname}">
+  </label><br>
+  <label for="birthday"><span th:text="#{registration.birthday}">Text</span>
+    <input id="birthday" type="date" name="birthday" th:value="*{birthday}">
+  </label><br>
+  <label for="phone"><span th:text="#{registration.phone}">Text</span>
+    <input id="phone" type="text" name="phone" th:value="*{phone}">
+  </label><br>
+  <button type="submit"><span style="color: red" th:text="#{registration.register}">Text</span></button>
+</form>
+
+<div th:if="${errors}">
+  <p style="color: red" th:each="error : ${errors}" th:text="${error.defaultMessage}">Error message</p>
+</div>
+</body>
+</html>

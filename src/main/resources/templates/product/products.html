@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Products</title>
+  <link rel="stylesheet" th:href="@{/styles/css/product.css}">
+  <link rel="stylesheet" th:href="@{/styles/css/fragment.css}">
+</head>
+<body>
+<div th:insert="~{fragment :: header}"></div>
+<h3><span th:text="#{products.all_products}">TEXT</span></h3>
+
+<span style="color:royalblue;font-weight:bold;" th:text="#{products.filter}">FILTER</span>
+
+<form action="/products">
+  <label for="mainCategory"><span th:text="#{products.main_category}">TEXT</span>
+    <input id="mainCategory" type="text" name="mainCategory" th:value="${filter.getMainCategoryName()}">
+  </label>
+  <label for="subCategory"><span th:text="#{products.sub_category}">TEXT</span>
+    <input id="subCategory" type="text" name="subCategory" th:value="${filter.getSubCategoryName()}">
+  </label>
+  <label for="author"><span th:text="#{products.author}">TEXT</span>
+    <input id="author" type="text" name="author" th:value="${filter.getAuthor()}">
+  </label>
+  <label for="price"><span th:text="#{products.price}">TEXT</span>
+    <input id="price" type="number" name="price" th:value="${filter.getPrice()}">
+  </label>
+  <label for="remainingAmount"><span th:text="#{products.remaining_amount}">TEXT</span>
+    <input id="remainingAmount" type="number" name="remainingAmount" th:value="${filter.getRemainingAmount()}">
+  </label>
+  <div>
+    <label for="page"><span th:text="#{products.page}">TEXT</span>
+      <input id="page" type="number" name="page" th:value="${products.metadata.page}">
+    </label>
+    <label for="size"><span th:text="#{products.size}">TEXT</span>
+      <input id="size" type="number" name="size" th:value="${products.metadata.size}">
+    </label>
+  </div>
+  <button type="submit"><span style="color: blue" th:text="#{products.filter}">TEXT</span></button>
+</form>
+<!--<div th:each="product : ${products.content}">-->
+<!--    <a th:href="@{'/products/' + ${product.id}}" th:text="|${product.id} - ${product.category} - ${product.name} - ${product.author}|">Product</a>-->
+<!--</div>-->
+<div class="product-card" th:each="product : ${products.content}">
+  <h3 class="product-card__title" th:text="${product.name}">Product name</h3>
+  <div th:if="${product.image}">
+    <img th:src="@{/api/v1/products/{productId}/image(productId=${product.id})}" alt="Product image">
+  </div>
+  <a th:href="@{'/products/' + ${product.id}}"><span th:text="#{products.more_about_product}">TEXT</span></a>
+  <p class="product-card__description" th:text="${product.description}">Description</p>
+  <span class="product-card__price" th:text="|${product.price} #{products.tenge}|">Price</span>
+  <form th:action="@{/users/{userId}/carts/{cartId}(userId=${userId},cartId=${cartId})}" method="post">
+    <label for="productId">
+      <input id="productId" type="hidden" name="productId" th:value="${product.id}">
+    </label>
+    <label for="quantity"> <span th:text="#{products.quantity}">TEXT</span>
+      <input id="quantity" type="number" name="quantity">
+    </label>
+    <button class="product-card__button" type="submit"><span th:text="#{products.add_to_cart}">TEXT</span></button>
+  </form>
+</div>
+</body>
+</html>

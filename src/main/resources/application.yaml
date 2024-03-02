@@ -1,0 +1,35 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${HOST}:5433/${POSTGRES_DATABASE}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties.hibernate:
+      show_sql: true
+      format_sql: true
+      hbm2ddl.auto: validate
+    open-in-view: false
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 447840486566-2r13oefnapf6adr0fn6fkbucob3niku9.apps.googleusercontent.com
+            client-secret: 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
+            redirect-uri: http://localhost:8080/login/oauth2/code/google
+            scope: openid,email,profile
+  messages:
+    basename: messages
+#  liquibase:
+#    enabled: true
+#    drop-first: false
+#    change-log: classpath:db/changelog/db.changelog-master.yaml
+#    default-schema: public
+
+logging:
+  level:
+    root: INFO
+    org.springframework.boot.autoconfigure.security: INFO
+    org.springframework.web: INFO
+    org.springframework.security: INFO

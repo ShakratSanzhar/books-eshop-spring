@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order</title>
+    <link rel="stylesheet" th:href="@{/styles/css/fragment.css}">
+</head>
+<body>
+<div th:insert="~{fragment :: header}"></div>
+<br>
+<h3><span th:text="#{order_inside.order}">Text</span></h3>
+<div th:each="productWithQuantity : ${list}">
+    <p th:text="|#{order_inside.name}:  ${productWithQuantity.productReadDto.name} |">Name</p>
+    <p th:text="|#{order_inside.quantity}: ${productWithQuantity.quantity} |">Quantity</p>
+
+</div>
+</body>
+</html>

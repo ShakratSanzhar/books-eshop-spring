@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>User</title>
+  <link rel="stylesheet" th:href="@{/styles/css/fragment.css}">
+</head>
+<body>
+<div th:insert="~{fragment :: header}"></div>
+<h3><span th:text="#{user.change_main_information_of_user}">Text</span></h3>
+<form th:action="@{/users/{userId}/update(userId=${user.id})}" method="post" th:object="${user}">
+  <label for="username">
+    <input id="username" type="hidden" name="username" th:value="*{username}">
+  </label><br>
+  <label for="email">
+    <input id="email" type="hidden" name="email" th:value="*{email}">
+  </label><br>
+  <span th:text="#{user.role}">Text</span>
+  <div th:each="role : ${roles}">
+    <input th:id="${role}" type="radio" name="role" th:value="${role}" th:checked="${role == user.role}">
+    <label th:for="${role}" th:text="${role}">Role name</label>
+  </div>
+  <button type="submit"><span style="color: red" th:text="#{user.update_main_information}">Text</span></button>
+</form>
+
+<div th:if="${mainInfoErrors}">
+  <p style="color: red" th:each="error : ${mainInfoErrors}" th:text="${error.defaultMessage}">Error message</p>
+</div>
+
+<div th:if="${mainSuccess}">
+  <p style="color: green" th:text="${mainSuccess}">Success</p>
+</div>
+
+<br>
+<h3><span th:text="#{user.update_details_of_user}">Text</span></h3>
+<form th:action="@{/users/{userId}/details/update(userId=${user.id})}" method="post" th:object="${user.userDetail}">
+  <label for="name"><span th:text="#{user.name}">Text</span>
+    <input id="name" type="text" name="name" th:value="*{name}">
+  </label><br>
+  <label for="surname"><span th:text="#{user.surname}">Text</span>
+    <input id="surname" type="text" name="surname" th:value="*{surname}">
+  </label><br>
+  <label for="birthday"><span th:text="#{user.birthday}">Text</span>
+    <input id="birthday" type="date" name="birthday" th:value="*{birthday}">
+  </label><br>
+  <label for="phone">
+    <input id="phone" type="hidden" name="phone" th:value="*{phone}">
+  </label><br>
+  <button type="submit"><span style="color: red" th:text="#{user.update_details}">Text</span></button>
+</form>
+
+<div th:if="${detailsInfoErrors}">
+  <p style="color: red" th:each="error : ${detailsInfoErrors}" th:text="${error.defaultMessage}">Error message</p>
+</div>
+
+<div th:if="${detailsSuccess}">
+  <p style="color: green" th:text="${detailsSuccess}">Success</p>
+</div>
+
+<br>
+<p style="color: black;font-weight: bold" th:text="|#{user.username} ${user.username}|">User</p>
+<p style="color: black;font-weight: bold" th:text="|#{user.email} ${user.email}|">User</p>
+<p style="color: black;font-weight: bold" th:text="|#{user.role} ${user.role}|">User</p>
+<p style="color: black;font-weight: bold" th:text="|#{user.name} ${user.userDetail.getName()}|">User Details</p>
+<p style="color: black;font-weight: bold" th:text="|#{user.surname} ${user.userDetail.getSurname()}|">User Details</p>
+<p style="color: black;font-weight: bold" th:text="|#{user.birthday} ${user.userDetail.getBirthday()}|">User Details</p>
+<p style="color: black;font-weight: bold" th:text="|#{user.phone} ${user.userDetail.getPhone()}|">User Details</p>
+<p style="color: black;font-weight: bold" th:text="|#{user.registration_date} ${user.userDetail.getRegistrationDate()}|">User Details</p>
+
+<form th:action="@{/users/{userId}/delete(userId=${user.id})}" method="post">
+  <button type="submit"><span style="color: red" th:text="#{user.remove}">Text</span></button>
+</form>
+</body>
+</html>

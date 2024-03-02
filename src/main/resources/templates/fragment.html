@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Fragments</title>
+</head>
+<body>
+<div th:fragment="header">
+
+    <div class="site-identity">
+        <h1 style="color:purple;font-weight:bold;">Eshop By Sanzhar Shakrat</h1>
+    </div>
+
+    <nav class="site-navigation">
+        <ul class="nav">
+
+            <li><a th:href="@{'/users/' + ${session.userId}}"><span style="color:green;font-weight:bold;" th:text="#{fragment.about_me}">ABOUT ME</span></a></li>
+
+            <li><a th:href="@{'/users/' + ${session.userId} + '/carts/' + ${session.cartId}}"><span style="color:green;font-weight:bold;" th:text="#{fragment.cart}">CART</span></a></li>
+
+            <li><a th:href="@{'/products'}"><span style="color:green;font-weight:bold;" th:text="#{fragment.all_products}">ALL PRODUCTS</span></a></li>
+
+            <li><a th:href="@{'/users/' + ${session.userId} + '/orders'}"><span style="color:green;font-weight:bold;" th:text="#{fragment.my_orders}">MY ORDERS</span></a></li>
+
+            <li>
+                <div sec:authorize="hasAuthority('ADMIN')">
+                    <a th:href="@{'/orders'}"><span style="color:blue;font-weight:bold;" th:text="#{fragment.all_orders}">ALL ORDERS</span></a>
+                </div>
+            </li>
+
+            <li>
+                <div sec:authorize="hasAuthority('ADMIN')">
+                    <a th:href="@{'/users'}"><span style="color:blue;font-weight:bold;" th:text="#{fragment.all_users}">ALL USERS</span></a>
+                </div>
+            </li>
+
+            <li>
+                <div sec:authorize="hasAuthority('ADMIN')">
+                    <a th:href="@{'/products/registration'}"><span style="color:blue;font-weight:bold;" th:text="#{fragment.add_new_product}">ADD NEW PRODUCT</span></a>
+                </div>
+            </li>
+
+            <li>
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit"><span style="color:red;font-weight:bold;" th:text="#{fragment.logout}">LOGOUT</span></button>
+                </form>
+            </li>
+
+            <li>
+                <div th:insert="~{fragment :: locale}"></div>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<div th:fragment="locale">
+    <span style="color:darkorange;font-weight:bold;" th:text="#{login.language}">Language:</span>
+    <form action="">
+        <select name="lang" onchange="this.form.submit()">
+            <option></option>
+            <option value="en">EN</option>
+            <option value="ru">RU</option>
+        </select>
+    </form>
+</div>
+</body>
+</html>

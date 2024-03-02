@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart</title>
+    <link rel="stylesheet" th:href="@{/styles/css/fragment.css}">
+</head>
+<body>
+<div th:insert="~{fragment :: header}"></div>
+<h3><span th:text="#{cart.cart}">Text</span></h3>
+<div th:each="productWithQuantity : ${list}">
+    <nobr><span style="color:blue;font-weight:bold;" th:text="#{cart.name}">Text</span> <p th:text="${productWithQuantity.productReadDto.name}">Name</p></nobr>
+    <div th:if="${productWithQuantity.productReadDto.image}">
+        <img th:src="@{/api/v1/products/{productId}/image(productId=${productWithQuantity.productReadDto.id})}" alt="Product image">
+    </div>
+    <nobr><span style="color:blue;font-weight:bold;" th:text="#{cart.pieces}">Text</span> <p th:text="${productWithQuantity.quantity}">Quantity</p></nobr>
+    <nobr><span style="color:blue;font-weight:bold;" th:text="#{cart.price}">Text</span> <p th:text="${productWithQuantity.productReadDto.price}">Price</p></nobr>
+
+    <form th:action="@{/users/{userId}/carts/{cartId}/change(userId=${userId},cartId=${cart.id})}" method="post">
+        <label for="productId">
+            <input id="productId" type="hidden" name="productId" th:value="${productWithQuantity.productReadDto.id}">
+        </label>
+        <label for="quantity"> <span style="color:blue;font-weight:bold;" th:text="#{cart.quantity}">Text</span>
+            <input id="quantity" type="number" name="quantity" th:value="${productWithQuantity.quantity}">
+        </label>
+        <button class="product-card__button" type="submit"><span style="color: red" th:text="#{cart.change_quantity}">Text</span></button>
+    </form>
+    <br>
+</div>
+<br>
+<br>
+<br>
+<nobr><span style="color:darkorange;font-weight:bold;" th:text="#{cart.total}">Text</span> <span th:text="|${cart.price} #{cart.tenge}|">Price</span></nobr>
+
+<form th:action="@{/users/{userId}/orders(userId=${cart.user.id})}" method="post">
+    <button class="product-card__button" type="submit"><span style="color: red" th:text="#{cart.place_an_order}">Text</span></button>
+</form>
+
+<div th:if="${errors}">
+    <p style="color: red" th:each="error : ${errors}" th:text="|${error.name} out of stock. Remaining amount : ${error.quantity}|">Error message</p>
+</div>
+
+</body>
+</html>
